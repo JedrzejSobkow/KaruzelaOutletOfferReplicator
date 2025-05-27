@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Produkty Allegro</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2em;
+        }
+        th, td {
+            border: 1px solid #aaa;
+            padding: 8px;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Otwórz ten link i się zaloguj:</h1>
+    <p><a href="{{ url }}" target="_blank">{{ url }}</a></p>
+
+    <h2>Znalezione produkty:</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th>ID Produktu</th>
+                <th>EAN</th>
+                <th>Kod Producenta</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.id }}</td>
+                <td>{{ product.ean or '-' }}</td>
+                <td>{{ product.parameters | selectattr("id", "equalto", "producer-code") | map(attribute="values") | join(", ") }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
